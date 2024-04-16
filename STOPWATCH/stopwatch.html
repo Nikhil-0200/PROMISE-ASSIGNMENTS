@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch</title>
+    <style>
+        #display {
+            display: flex;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>STOPWATCH</h1>
+
+    <div>
+        <div id="display">
+            <h1>00 </h1>
+            <h1>00 </h1>
+            <h1>00 </h1>
+            <h1>00 </h1>
+        </div>
+
+        <div id="Btns">
+            <button>Start</button>
+            <button>Stop</button>
+            <button>Reset</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let display = document.querySelector("#display");
+
+    let hourDisplay = document.querySelector("#display > h1:nth-child(1)");
+    let minDisplay = document.querySelector("#display > h1:nth-child(2)");
+    let secDisplay = document.querySelector("#display > h1:nth-child(3)");
+    let miliSecDisplay = document.querySelector("#display > h1:nth-child(4)");
+
+    let Btns = document.querySelector("#Btns");
+
+    startBtn = document.querySelector("#Btns > button:nth-child(1)")
+    stopBtn = document.querySelector("#Btns > button:nth-child(2)")
+    resetBtn = document.querySelector("#Btns > button:nth-child(3)")
+
+    let interval; 
+
+    let total = 0;
+
+    function incTotal(){
+        total++
+        convertIntoTime()
+    }
+
+    function convertIntoTime(){
+
+        let ht = Math.floor(total/ 360000).toString().padStart(2, "0");
+
+        let mt = Math.floor((total % 360000)/ 6000).toString().padStart(2, "0");
+
+        let st = Math.floor((total % 6000) / 100).toString().padStart(2, "0");
+
+        let mst = Math.floor((total % 100)).toString().padStart(2, "0");
+
+        hourDisplay.textContent = ht;
+        minDisplay.textContent = mt;
+        secDisplay.textContent = st;
+        miliSecDisplay.textContent = mst;
+    }
+
+    startBtn.addEventListener("click", ()=>{
+        clearInterval(interval)
+        function startInterval(){
+            interval = setInterval(()=>{
+            incTotal()
+        }, 10)
+    }
+    startInterval()
+    })
+
+    stopBtn.addEventListener("click", ()=>{
+        clearInterval(interval)
+    })
+
+    resetBtn.addEventListener("click", ()=>{
+        clearInterval(interval)
+
+        total = 0
+
+        convertIntoTime()
+    })
+
+    
+</script>
