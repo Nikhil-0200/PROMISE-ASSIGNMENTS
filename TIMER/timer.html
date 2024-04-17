@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMER</title>
+    <style>
+        #display{
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Timer</h1>
+
+    <div>
+        <div id="display">
+            <input placeholder="Hr" type="number"></input>
+            <input placeholder="Min" type="number"></input>
+            <input placeholder="Sec" type="number"></input>
+        </div>
+
+        <div id="Btns">
+            <button>Start</button>
+            <button>Stop</button>
+            <button>Reset</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let display = document.querySelector("#display");
+
+    let hourDisplay = document.querySelector("#display > input:nth-child(1)");
+    let minDisplay = document.querySelector("#display > input:nth-child(2)");
+    let secDisplay = document.querySelector("#display > input:nth-child(3)");
+    let Btns = document.querySelector("#Btns");
+    let startBtn = document.querySelector("#Btns > button:nth-child(1)");
+    let stopBtn = document.querySelector("#Btns > button:nth-child(2)");
+    let resetBtn = document.querySelector("#Btns > button:nth-child(3)");
+    let total = 0; 
+    let interval ;
+
+    function getData(){
+         total = (Math.floor(hourDisplay.value) * 3600) + (Math.floor(minDisplay.value) * 60 ) + (Math.floor(secDisplay.value))
+         return total;   
+    }
+
+    function decTotal(){
+        if(total > 0){
+            total--
+        }
+        else if(total <= 0){
+            alert("Timer Ends")
+            total = 0;
+            clearInterval(interval)
+        }
+
+        return
+    }
+
+    function setData(){
+
+let ht = Math.floor(total / 3600).toString().padStart(2, "0");
+let mt = Math.floor((total % 3600) / 60).toString().padStart(2, "0");
+let st = Math.floor(total % 60).toString().padStart(2, "0");
+
+hourDisplay.value = ht;
+minDisplay.value = mt;
+secDisplay.value = st;
+}
+
+    startBtn.addEventListener("click", ()=>{
+        getData()
+        interval = setInterval(()=>{
+            decTotal()
+            setData()
+        }, 1000)
+    })
+
+    stopBtn.addEventListener("click", ()=>{
+        clearInterval(interval)
+    })
+   
+    resetBtn.addEventListener("click", ()=>{
+        clearInterval(interval);
+
+        total = 0;
+        setData()
+
+    })
+
+
+
+</script>
